@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Button, TextField, FieldWrap, Pagination, Panel, Loader, Line } from '@deque/cauldron-react';
+import { useState, useId } from 'react';
+import { Button, TextField, FieldWrap, Pagination, Panel, Loader, Line, Link } from '@deque/cauldron-react';
 
 const originalState = {
         isLoading: false,
@@ -15,7 +15,8 @@ const originalState = {
 }
 
 const BookSearch = () => {
-    const [state, setState] = useState({...originalState});
+    const [state, setState] = useState({ ...originalState });
+    const id = useId();
 
     const searchBooks = async (page = 1) => {
         if (!state.query) { 
@@ -53,7 +54,7 @@ const BookSearch = () => {
 
     const formatAuthors = authors => {
         if (!authors || authors.length === 0) return 'Author Unknown';
-        let authorsFormatted = authors[0]
+        let authorsFormatted = authors[0] + " "
         authors.forEach((author) => {
             authorsFormatted = authorsFormatted + "[, "
             authorsFormatted =  authorsFormatted + author + " "
@@ -72,6 +73,7 @@ const BookSearch = () => {
                     label="Enter book title or author"
                     value={state.query}
                     onChange={(val) => setState(prev => ({ ...prev, query: val }))}
+                    onKeyPress={(e) => e.key === 'Enter' && searchBooks(1)}
                 />
             </FieldWrap>
             <Button onClick={() => searchBooks(1)} style={{ width: "50%"}}>Search</Button>
@@ -80,9 +82,13 @@ const BookSearch = () => {
                 <div aria-live="polite" role="alert">
                     <Loader label="Searching books..." />
                 </div>
-            ) : (
+            ) : (state.totalResults == 0 ? 
+                    <div>
+                        No books found ! Please use the search
+                    </div>
+                :
                 <div>
-                    {state.totalResults > 0 && <article>
+                    <article>
                         <p>Total Results: {state.totalResults}</p>
                         <p>Most Common Author: {state.commonAuthor}</p>
                         <p>Oldest Publication Date: {state.oldestDate}</p>
@@ -90,18 +96,36 @@ const BookSearch = () => {
                         <p>Server Response Time: {state.responseTime} ms</p>
                         <Line />
                     </article>
-                    }
                     {state.books.map((book, index) => (
                         <Panel key={index}>
-                            <div key={index} onClick={() => toggleDescription(index)} tabIndex={0} onKeyPress={(e) => e.key === 'Enter' && toggleDescription(index)}>
-                                {`${formatAuthors(book.authors)} - ${book.title || 'Title Unknown'}`}
-                                {book.showDescription && <p>{book.description}</p>}
+                            <div key={`${id}-${book.title}`} onClick={() => toggleDescription(index)} tabIndex={0} onKeyPress={(e) => e.key === 'Enter' && toggleDescription(index)}>
+                                <img src={book.imgLink} alt={`${book.title} thumbnail`} style={{ width: "80px" }} />
+                                
+                                <p>{`${formatAuthors(book.authors)} - `}
+                                    <span style={{ fontWeight: "bold" }}>
+                                        {`${book.title || 'Title Unknown'}`}
+                                    </span>
+                                </p>
+
+                                {book.showDescription &&
+                                    <article>
+                                        <p>
+                                            {book.description}
+                                        </p>
+                                        <Link
+                                            onClick={(e) => e.stopPropagation()}
+                                            href={book.previewLink}
+                                            target="_blank"
+                                        >
+                                            Book Preview
+                                        </Link>
+                                    </article>
+                                }
                             </div>
                         </Panel>
                     ))}
-                </div>)}
-                {state.totalResults > 0 &&
                     <Pagination
+                    style={{ marginTop: "20px" }}
                     currentPage={state.currentPage}
                     itemsPerPage={state.itemsPerPage}
                     totalItems={state.totalResults}
@@ -111,7 +135,8 @@ const BookSearch = () => {
                     onLastPageClick={() => searchBooks(Math.ceil(state.totalResults / state.itemsPerPage))}
                     tooltipPlacement="bottom"
                     thin
-                />}
+                    />
+                </div>)}
         </section>
     )
 };

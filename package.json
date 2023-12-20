@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This is Deque's Take Home Assessment",
   "scripts": {
-    "start": "npm start --prefix server & npm start --prefix client",
+    "start": "npm start --prefix server & npm run dev --prefix client",
     "install": "cd server && npm install && cd ../client && npm install"
   },
   "author": "Harsha",

@@ -25,11 +25,13 @@ app.get('/search', async (req, res) => {
         const response = await axios.get(url);
         const responseTime = new Date() - start;
         const data = response.data;
-        
+        ``
         const books = data.items.map(item => ({
             title: item.volumeInfo.title,
             authors: item.volumeInfo.authors,
             description: item.volumeInfo.description || 'No description available',
+            imgLink: item.volumeInfo.imageLinks.smallThumbnail,
+            previewLink: item.volumeInfo.previewLink,
             publishedDate: item.volumeInfo.publishedDate
         }));
 
