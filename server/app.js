@@ -13,38 +13,39 @@ app.use(cors());
 // Search route
 app.get('/search', async (req, res) => {
     const { query, startIndex = 0 } = req.query;
+    const apiKey = process.env.GOOGLE_BOOKS_API_KEY;
 
     if (!query) {
         return res.status(400).send('Query parameter is required');
     }
 
-  try {
-      const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${startIndex}&maxResults=10&key=${apiKey}`;
-      const response = await axios.get(url);
-    const data = response.data;
-    
-      const books = data.items.map(item => ({
-          title: item.volumeInfo.title,
-          authors: item.volumeInfo.authors ? item.volumeInfo.authors.join(', ') : 'Author Unknown',
-          description: item.volumeInfo.description || 'No description available',
-          publishedDate: item.volumeInfo.publishedDate
-      }));
+    try {
+        const start = new Date();
+        const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${startIndex}&maxResults=10&key=${apiKey}`;
+        const response = await axios.get(url);
+        const responseTime = new Date() - start + "ms";
+        const data = response.data;
+        
+        const books = data.items.map(item => ({
+            title: item.volumeInfo.title,
+            authors: item.volumeInfo.authors,
+            description: item.volumeInfo.description || 'No description available',
+            publishedDate: item.volumeInfo.publishedDate
+        }));
 
-      const totalResults = data.totalItems;
-      const mostCommonAuthor = findMostCommonAuthor(books);
-      const { oldestPublicationDate, newestPublicationDate } = findPublicationDates(books);
-      const responseTime = Date.now() - startTime;
-    
-      res.json({
-            totalResults,
-            mostCommonAuthor,
-            oldestPublicationDate,
-            newestPublicationDate,
-            responseTime,
-            books
-        });
+        const totalResults = data.totalItems;
+        const mostCommonAuthor = findMostCommonAuthor(books);
+        const { oldestPublicationDate, newestPublicationDate } = findPublicationDates(books);
+        res.json({
+                totalResults,
+                mostCommonAuthor,
+                oldestPublicationDate,
+                newestPublicationDate,
+                responseTime,
+                books
+            });
     } catch (error) {
-        res.status(500).send('Error occurred while fetching data');
+            res.status(500).send('Error occurred while fetching data');
     }
 });
 
@@ -52,7 +53,7 @@ function findMostCommonAuthor(books) {
     const authorFrequency = {};
     books.forEach(book => {
         if (book.authors) {
-            book.authors.split(', ').forEach(author => {
+            book.authors.forEach(author => {
                 authorFrequency[author] = (authorFrequency[author] || 0) + 1;
             });
         }
