@@ -65,6 +65,9 @@ The application requires a valid Google Books API key to fetch book data. To set
 ## Running the Application
 
 To run both the client and server concurrently:
+```
+  npm start
+```
 
 This command will start the server on `http://localhost:3000` and the client on `http://localhost:5173` (or the next available port if 5173 is occupied).
 
