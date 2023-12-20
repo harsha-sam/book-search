@@ -23,7 +23,7 @@ app.get('/search', async (req, res) => {
         const start = new Date();
         const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${startIndex}&maxResults=10&key=${apiKey}`;
         const response = await axios.get(url);
-        const responseTime = new Date() - start + "ms";
+        const responseTime = new Date() - start;
         const data = response.data;
         
         const books = data.items.map(item => ({

@@ -1,0 +1,15 @@
+.App {
+  font-family: 'Roboto', sans-serif;
+}
+main {
+  padding: 80px 260px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* p{
+  color: #fff;
+} */

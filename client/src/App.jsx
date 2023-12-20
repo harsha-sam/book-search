@@ -1,11 +1,12 @@
-import './App.css'
 import BookSearch from './BookSearch';
+import './App.css'
 
 function App() {
   return (
     <div className="App">
-      <h1>Book Search</h1>
-      <BookSearch />
+      <main>
+        <BookSearch />
+      </main>
     </div>
   )
 }
