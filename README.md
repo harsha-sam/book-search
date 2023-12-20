@@ -50,11 +50,17 @@ The application requires a valid Google Books API key to fetch book data. To set
 ## Installation
 
 1. Clone the repository:
-`git clone https://github.com/harsha-sam/book-search.git`
+  ```
+  git clone https://github.com/harsha-sam/book-search.git`
+  ```
 2. Navigate to the project directory:
-`cd book-search-app`
-3. Install dependencies for both server and client:
-`npm run install`
+  ```
+  cd book-search-app`
+  ```
+4. Install dependencies for both server and client:
+  ```
+  npm run install
+  ```
 
 ## Running the Application
 
