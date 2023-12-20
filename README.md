@@ -2,7 +2,7 @@
 
 ## Description
 
-The Book Search App, developed as part of Deque System's Take Home Assessment, is a web application that allows users to search for books using the Google Books API. This app is built with React and Node.js, utilizing the Cauldron design system to create an accessible and responsive user interface.
+The Book Search App is a web application that allows users to search for books using the Google Books API. This app is built with React and Node.js, utilizing the Cauldron design system to create an accessible and responsive user interface.
 
 ## Features
 
