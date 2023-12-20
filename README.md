@@ -55,7 +55,7 @@ The application requires a valid Google Books API key to fetch book data. To set
   ```
 2. Navigate to the project directory:
   ```
-  cd book-search-app
+  cd book-search
   ```
 4. Install dependencies for both server and client:
   ```
