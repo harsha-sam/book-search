@@ -55,10 +55,10 @@ const BookSearch = () => {
     const formatAuthors = authors => {
         if (!authors || authors.length === 0) return 'Author Unknown';
         let authorsFormatted = authors[0] + " "
-        authors.forEach((author) => {
+        for (let i = 1; i < authors.length ; i++) {
             authorsFormatted = authorsFormatted + "[, "
-            authorsFormatted =  authorsFormatted + author + " "
-        })
+            authorsFormatted =  authorsFormatted + authors[i] + " "
+        }
         for (let i = authors.length; i > 0 ; i--) {
             authorsFormatted = authorsFormatted + "]"
         }

@@ -25,7 +25,6 @@ app.get('/search', async (req, res) => {
         const response = await axios.get(url);
         const responseTime = new Date() - start;
         const data = response.data;
-        ``
         const books = data.items.map(item => ({
             title: item.volumeInfo.title,
             authors: item.volumeInfo.authors,
