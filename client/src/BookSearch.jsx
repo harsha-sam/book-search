@@ -59,7 +59,7 @@ const BookSearch = () => {
             authorsFormatted = authorsFormatted + "[, "
             authorsFormatted =  authorsFormatted + authors[i] + " "
         }
-        for (let i = authors.length; i > 0 ; i--) {
+        for (let i = authors.length; i > 1 ; i--) {
             authorsFormatted = authorsFormatted + "]"
         }
         return authorsFormatted;
